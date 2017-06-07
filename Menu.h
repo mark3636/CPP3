@@ -16,8 +16,21 @@ void printSubscriberMenu() {
 	std::cout << " 1)Find book" << std::endl;
 	std::cout << " 2)Output my books" << std::endl;
 	std::cout << " 3)Output available books" << std::endl;
-	std::cout << " 4)Take book" << std::endl;
-	std::cout << " 5)Return book" << std::endl;
+	std::cout << " 4)Return book" << std::endl;
+	std::cout << " 0)Exit" << std::endl;
+	std::cout << "-------------------------------------" << std::endl;
+}
+
+void printSubTake() {
+	std::cout << "-------------------------------------" << std::endl;
+	std::cout << " 1)Take" << std::endl;
+	std::cout << " 0)Exit" << std::endl;
+	std::cout << "-------------------------------------" << std::endl;
+}
+
+void printSubReturn() {
+	std::cout << "-------------------------------------" << std::endl;
+	std::cout << " 1)Return" << std::endl;
 	std::cout << " 0)Exit" << std::endl;
 	std::cout << "-------------------------------------" << std::endl;
 }
@@ -28,6 +41,15 @@ void printLibrarianMenu() {
 	std::cout << " 2)Output books" << std::endl;
 	std::cout << " 3)Edit subscribers" << std::endl;
 	std::cout << " 4)Edit books" << std::endl;
+	std::cout << " 0)Exit" << std::endl;
+	std::cout << "-------------------------------------" << std::endl;
+}
+
+void printAuthorAndTitle() {
+	std::cout << "-------------------------------------" << std::endl;
+	std::cout << " 1)By author" << std::endl;
+	std::cout << " 2)By title" << std::endl;
+	std::cout << " 3)Enter position" << std::endl;
 	std::cout << " 0)Exit" << std::endl;
 	std::cout << "-------------------------------------" << std::endl;
 }
@@ -50,15 +72,7 @@ void printBookEdit() {
 	std::cout << "-------------------------------------" << std::endl;
 }
 
-void printMenuConsoleFile() {
-	std::cout << "-------------------------------------" << std::endl;
-	std::cout << " 1)Console" << std::endl;
-	std::cout << " 2)File" << std::endl;
-	std::cout << " 0)Exit" << std::endl;
-	std::cout << "-------------------------------------" << std::endl;
-}
-
-void printMenuFindParamBook() {
+void printMenuSortBook() {
 	std::cout << "-------------------------------------" << std::endl;
 	std::cout << " 1)By library card" << std::endl;
 	std::cout << " 2)By author" << std::endl;
@@ -69,10 +83,31 @@ void printMenuFindParamBook() {
 	std::cout << "-------------------------------------" << std::endl;
 }
 
-void printMenuFindParamSubscriber() {
+void printMenuFindBooks() {
+	std::cout << "-------------------------------------" << std::endl;
+	std::cout << " 1)By library card" << std::endl;
+	std::cout << " 2)By author" << std::endl;
+	std::cout << " 3)By title" << std::endl;
+	std::cout << " 4)By publishing house" << std::endl;
+	std::cout << " 5)By return date" << std::endl;
+	std::cout << " 6)Enter position" << std::endl;
+	std::cout << " 0)Exit" << std::endl;
+	std::cout << "-------------------------------------" << std::endl;
+}
+
+void printMenuSortSubscriber() {
 	std::cout << "-------------------------------------" << std::endl;
 	std::cout << " 1)By library card" << std::endl;
 	std::cout << " 2)By surname" << std::endl;
+	std::cout << " 0)Exit" << std::endl;
+	std::cout << "-------------------------------------" << std::endl;
+}
+
+void printMenuFindSubscribers() {
+	std::cout << "-------------------------------------" << std::endl;
+	std::cout << " 1)By library card" << std::endl;
+	std::cout << " 2)By surname" << std::endl;
+	std::cout << " 3)Enter position" << std::endl;
 	std::cout << " 0)Exit" << std::endl;
 	std::cout << "-------------------------------------" << std::endl;
 }

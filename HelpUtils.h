@@ -9,7 +9,7 @@ bool checkInt(std::string str) {
 		return false;
 	}
 	size_t i = 0;
-	while ((i < str.length()) && ((str[i] == ' ') || (str[i] == '	'))) {
+	while ((i < str.length()) && ((str[i] == ' ') || (str[i] == '\t'))) {
 		++i;
 	}
 	if (i >= str.length()) {

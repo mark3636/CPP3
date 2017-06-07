@@ -115,7 +115,7 @@ Book inputBook() {
 	std::cout << "-------------BOOK-------------" << std::endl;
 	std::cout << "Type \"exit\" to exit" << std::endl;
 
-	libraryCard = inputInt("Enter library card(0 - book without sub): ");
+	libraryCard = inputInt("Enter library card(\"-\" - book without subscriber): ");
 
 	if (libraryCard != 0) {
 		issueDate = inputDate("Enter issue date(dd/mm/yyyy): ");
