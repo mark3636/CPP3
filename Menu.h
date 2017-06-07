@@ -45,7 +45,7 @@ void printLibrarianMenu() {
 	std::cout << "-------------------------------------" << std::endl;
 }
 
-void printAuthorAndTitle() {
+void printAuthorAndTitleFind() {
 	std::cout << "-------------------------------------" << std::endl;
 	std::cout << " 1)By author" << std::endl;
 	std::cout << " 2)By title" << std::endl;
@@ -75,10 +75,13 @@ void printBookEdit() {
 void printMenuSortBook() {
 	std::cout << "-------------------------------------" << std::endl;
 	std::cout << " 1)By library card" << std::endl;
-	std::cout << " 2)By author" << std::endl;
-	std::cout << " 3)By title" << std::endl;
-	std::cout << " 4)By publishing house" << std::endl;
-	std::cout << " 5)By return date" << std::endl;
+	std::cout << " 2)By issue date" << std::endl;
+	std::cout << " 3)By return date" << std::endl;
+	std::cout << " 4)By author" << std::endl;
+	std::cout << " 5)By title" << std::endl;
+	std::cout << " 6)By publication year" << std::endl;
+	std::cout << " 7)By publishing house" << std::endl;
+	std::cout << " 8)By price" << std::endl;
 	std::cout << " 0)Exit" << std::endl;
 	std::cout << "-------------------------------------" << std::endl;
 }
@@ -86,11 +89,14 @@ void printMenuSortBook() {
 void printMenuFindBooks() {
 	std::cout << "-------------------------------------" << std::endl;
 	std::cout << " 1)By library card" << std::endl;
-	std::cout << " 2)By author" << std::endl;
-	std::cout << " 3)By title" << std::endl;
-	std::cout << " 4)By publishing house" << std::endl;
-	std::cout << " 5)By return date" << std::endl;
-	std::cout << " 6)Enter position" << std::endl;
+	std::cout << " 2)By issue date" << std::endl;
+	std::cout << " 3)By return date" << std::endl;
+	std::cout << " 4)By author" << std::endl;
+	std::cout << " 5)By title" << std::endl;
+	std::cout << " 6)By publication year" << std::endl;
+	std::cout << " 7)By publishing house" << std::endl;
+	std::cout << " 8)By price" << std::endl;
+	std::cout << " 9)Enter position" << std::endl;
 	std::cout << " 0)Exit" << std::endl;
 	std::cout << "-------------------------------------" << std::endl;
 }

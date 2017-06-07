@@ -93,6 +93,44 @@ public:
 	}
 };
 
+class IssueDatePred {
+protected:
+	Date date;
+
+public:
+	IssueDatePred(Date _date) {
+		date = _date;
+	}
+
+	bool operator() (Book book) {
+		return date == book.issueDate;
+	}
+};
+
+class PublicationYearPred {
+protected:
+	int year;
+
+public:
+	PublicationYearPred(int n) :year(n) {}
+
+	bool operator() (Book book) {
+		return year == book.publicationYear;
+	}
+};
+
+class PricePred {
+protected:
+	dec::decimal<2> price;
+
+public:
+	PricePred(dec::decimal<2> _price) :price(_price) {}
+
+	bool operator() (Book book) {
+		return price == book.price;
+	}
+};
+
 class LibraryCardComp {
 public:
 	bool operator()(Book book1, Book book2) {
@@ -136,6 +174,27 @@ class ReturnDateComp {
 public:
 	bool operator()(Book book1, Book book2) {
 		return book1.returnDate < book2.returnDate;
+	}
+};
+
+class IssueDateComp {
+public:
+	bool operator()(Book book1, Book book2) {
+		return book1.issueDate < book2.issueDate;
+	}
+};
+
+class PublicationYearComp {
+public:
+	bool operator()(Book book1, Book book2) {
+		return book1.publicationYear < book2.publicationYear;
+	}
+};
+
+class PriceComp {
+public:
+	bool operator()(Book book1, Book book2) {
+		return book1.price < book2.price;
 	}
 };
 
@@ -286,6 +345,69 @@ public:
 	}
 };
 
+class IssueDateAcc {
+protected:
+	Date date;
+	std::vector<Book> *v;
+
+public:
+	IssueDateAcc(Date _date) {
+		date = _date;
+		v = new std::vector<Book>();
+	}
+
+	std::vector<Book> getSet() {
+		return *v;
+	}
+
+	void operator()(Book book) {
+		if (date == book.issueDate)
+			(*v).push_back(book);
+	}
+};
+
+class PublicationYearAcc {
+protected:
+	int year;
+	std::vector<Book> *v;
+
+public:
+	PublicationYearAcc(int n) {
+		year = n;
+		v = new std::vector<Book>();
+	}
+
+	std::vector<Book> getSet() {
+		return *v;
+	}
+
+	void operator()(Book book) {
+		if (year == book.publicationYear)
+			(*v).push_back(book);
+	}
+};
+
+class PriceAcc {
+protected:
+	dec::decimal<2> price;
+	std::vector<Book> *v;
+
+public:
+	PriceAcc(dec::decimal<2> _price) {
+		price = _price;
+		v = new std::vector<Book>();
+	}
+
+	std::vector<Book> getSet() {
+		return *v;
+	}
+
+	void operator()(Book book) {
+		if (price == book.price)
+			(*v).push_back(book);
+	}
+};
+
 template<class P>
 class Container {
 protected:
@@ -330,7 +452,8 @@ public:
 			vect.push_back(p);
 			return true;
 		}
-
+		std::cout << "-------------------------------------" << std::endl;
+		std::cout << "Subscriber with such library card already exists!" << std::endl;
 		return false;
 	}
 
@@ -483,6 +606,19 @@ public:
 	void sortByReturnDate() {
 		sort(ReturnDateComp());
 	}
+
+	void sortByIssueDate() {
+		sort(IssueDateComp());
+	}
+
+	void sortByPublicationYear() {
+		sort(PublicationYearComp());
+	}
+
+	void sortByPrice() {
+		sort(PriceComp());
+	}
+
 	bool findByLibraryCard(int card, my_iterator &it) {
 		return find(LibraryCardPred(card), it);
 	}
@@ -501,6 +637,18 @@ public:
 
 	bool findByReturnDate(Date date, my_iterator &it) {
 		return find(ReturnDatePred(date), it);
+	}
+
+	bool findByIssueDate(Date date, my_iterator &it) {
+		return find(IssueDatePred(date), it);
+	}
+
+	bool findByPublicationYear(int year, my_iterator &it) {
+		return find(PublicationYearPred(year), it);
+	}
+
+	bool findByPrice(dec::decimal<2> price, my_iterator &it) {
+		return find(PricePred(price), it);
 	}
 
 	bool findByLibraryCardBinary(int card, my_iterator &it) {
@@ -528,6 +676,21 @@ public:
 		return find(ReturnDateComp(), book, it);
 	}
 
+	bool findByIssueDateBinary(Date date, my_iterator &it) {
+		Book book = Book(0, date, Date(), "", "", 1990, "", dec::decimal_cast<2>(0));
+		return find(IssueDateComp(), book, it);
+	}
+
+	bool findByPublicationYearBinary(int year, my_iterator &it) {
+		Book book = Book(0, Date(), Date(), "", "", year, "", dec::decimal_cast<2>(0));
+		return find(PublicationYearComp(), book, it);
+	}
+
+	bool findByPriceBinary(dec::decimal<2> price, my_iterator &it) {
+		Book book = Book(0, Date(), Date(), "", "", 1990, "", price);
+		return find(PriceComp(), book, it);
+	}
+
 	BookContainer findSubSetByLibraryCard(int card) {
 		return BookContainer(findSubset(LibraryCardAcc(card)));
 	}
@@ -546,6 +709,18 @@ public:
 
 	BookContainer findSubSetByReturnDate(Date date) {
 		return BookContainer(findSubset(ReturnDateAcc(date)));
+	}
+
+	BookContainer findSubSetByIssueDate(Date date) {
+		return BookContainer(findSubset(IssueDateAcc(date)));
+	}
+
+	BookContainer findSubSetByPublicationYear(int year) {
+		return BookContainer(findSubset(PublicationYearAcc(year)));
+	}
+
+	BookContainer findSubSetByPrice(dec::decimal<2> price) {
+		return BookContainer(findSubset(PriceAcc(price)));
 	}
 
 	void fileInput(std::fstream fin) {
@@ -683,37 +858,46 @@ void findBooks(BookContainer &cont, int level) {
 		return;
 
 	printMenuFindBooks();
-	n = inputInt("Enter the command: ", 0, 6);
+	n = inputInt("Enter the command: ", 0, 9);
 	switch (n) {
 	case 1://Library card
 		cont = cont.findSubSetByLibraryCard(inputInt("Enter library card: "));
 		break;
-	case 2://Author
+	case 2://Issue date
+		cont = cont.findSubSetByIssueDate(inputDate("Enter issue date: "));
+		break;
+	case 3://Return date
+		cont = cont.findSubSetByReturnDate(inputDate("Enter return date: "));
+		break;
+	case 4://Author
 		std::cout << "Enter author: ";
 		std::cin >> str;
 		cont = cont.findSubSetByAuthor(str);
 		break;
-	case 3://Title
+	case 5://Title
 		std::cout << "Enter title: ";
 		std::cin >> str;
 		cont = cont.findSubSetByTitle(str);
 		break;
-	case 4://Publishing house
+	case 6://Publication year
+		cont = cont.findSubSetByPublicationYear(inputInt("Enter publication year: ", 1900, 2017));
+		break;
+	case 7://Publishing house
 		std::cout << "Enter publishing house: ";
 		std::cin >> str;
 		cont = cont.findSubSetByPublishingHouse(str);
 		break;
-	case 5://Return date
-		cont = cont.findSubSetByReturnDate(inputDate("Enter return date: "));
+	case 8://Price
+		cont = cont.findSubSetByPrice(inputPrice("Enter price: "));
 		break;
-	case 6://Exit
+	case 9://Enter position
 		consoleOutput(cont);
 		return;
-	case 0:
+	case 0://Exit
 		throw "Exit";
 	}
 
-	return findBooks(cont, level + 1);
+	findBooks(cont, level + 1);
 }
 
 void findSubBooks(BookContainer &cont, int level) {
@@ -726,7 +910,7 @@ void findSubBooks(BookContainer &cont, int level) {
 	if (cont.size() <= 1 || level == MAX_LEVEL)
 		return;
 
-	printAuthorAndTitle();
+	printAuthorAndTitleFind();
 	n = inputInt("Enter the command: ", 0, 3);
 	switch (n) {
 	case 1://Author
@@ -806,7 +990,7 @@ int main() {
 								else {
 									if (subcontSubscriber.size() > 1) {
 										n = inputInt("Enter subscriber's position in the list(1.."
-											+ std::to_string(subcontSubscriber.size()) + "): ", 1, subcontSubscriber.size());
+											+ std::to_string(subcontSubscriber.size()) + ") or \"exit\" to exit: ", 1, subcontSubscriber.size());
 										subscriberContainer.find(subcontSubscriber[n - 1], itSubscriber);
 										printSubscriberCaption();
 										std::cout << *itSubscriber << std::endl;
@@ -890,7 +1074,7 @@ int main() {
 								else {
 									if (subcontBook.size() > 1) {
 										bookContainer.find(subcontBook[inputInt("Enter book's position in the list(1.."
-											+ std::to_string(subcontBook.size()) + "): ", 1, subcontBook.size()) - 1], itBook);
+											+ std::to_string(subcontBook.size()) + ") or \"exit\" to exit: ", 1, subcontBook.size()) - 1], itBook);
 										printBookCaption();
 										std::cout << *itBook << std::endl;
 									}
@@ -930,26 +1114,38 @@ int main() {
 							break;
 						case 3://Sort books
 							printMenuSortBook();
-							n = inputInt("Enter the command: ", 0, 5);
+							n = inputInt("Enter the command: ", 0, 8);
 							switch (n) {
 							case 1://By library card
 								bookContainer.sortByLibraryCard();
 								consoleOutput(bookContainer);
 								break;
-							case 2://By author
+							case 2://By issue date
+								bookContainer.sortByIssueDate();
+								consoleOutput(bookContainer);
+								break;
+							case 3://By return date
+								bookContainer.sortByReturnDate();
+								consoleOutput(bookContainer);
+								break;
+							case 4://By author
 								bookContainer.sortByAuthor();
 								consoleOutput(bookContainer);
 								break;
-							case 3://By title
+							case 5://By title
 								bookContainer.sortByTitle();
 								consoleOutput(bookContainer);
 								break;
-							case 4://By publishing house
+							case 6://By publication year
+								bookContainer.sortByPublicationYear();
+								consoleOutput(bookContainer);
+								break;
+							case 7://By publishing house
 								bookContainer.sortByPublishingHouse();
 								consoleOutput(bookContainer);
 								break;
-							case 5://By return date
-								bookContainer.sortByReturnDate();
+							case 8://By price
+								bookContainer.sortByPrice();
 								consoleOutput(bookContainer);
 								break;
 							case 0://Exit
@@ -991,9 +1187,10 @@ int main() {
 									if (subcontBook.size() == 0) 
 										std::cout << "There are no such books!" << std::endl;
 									else {
+
 										if (subcontBook.size() > 1) {
 											n = inputInt("Enter book's position in the list(1.."
-												+ std::to_string(subcontBook.size()) + "): ", 1, subcontBook.size());
+												+ std::to_string(subcontBook.size()) + ") or \"exit\" to exit: ", 1, subcontBook.size());
 											bookContainer.find(subcontBook[n - 1], itBook);
 											printBookCaption();
 											std::cout << *itBook << std::endl;
@@ -1006,26 +1203,29 @@ int main() {
 											switch (n) {
 											case 1://Return book
 												itBook->libraryCard = 0;
+												std::cout << "-------------------------------------" << std::endl;
 												std::cout << "You return the book!" << std::endl;
 												break;
 											case 0://Exit
 												break;
 											}
 										}
-										if (itBook->libraryCard == 0) {
-											printSubTake();
-											n = inputInt("Enter the command: ", 0, 1);
-											switch (n) {
-											case 1://Take book
-												itBook->libraryCard = currentSubscriber;
-												itBook->issueDate = Date(20, 06, 2017);
-												itBook->returnDate = Date(20, 07, 2017);
-												std::cout << "You take the book!" << std::endl;
-												break;
-											case 0://Exit
-												break;
+										else
+											if (itBook->libraryCard == 0) {
+												printSubTake();
+												n = inputInt("Enter the command: ", 0, 1);
+												switch (n) {
+												case 1://Take book
+													itBook->libraryCard = currentSubscriber;
+													itBook->issueDate = Date(20, 06, 2017);
+													itBook->returnDate = Date(20, 07, 2017);
+													std::cout << "-------------------------------------" << std::endl;
+													std::cout << "You take the book!" << std::endl;
+													break;
+												case 0://Exit
+													break;
+												}
 											}
-										}
 									}
 								}
 								catch (const char*) {}
@@ -1060,13 +1260,12 @@ int main() {
 									std::cout << "Books, which you can return:" << std::endl;
 									try {
 										findSubBooks(subcontBook, 0);
-										std::cout << "-------------------------------------" << std::endl;
 										if (subcontBook.size() == 0)
 											std::cout << "There are no such books!" << std::endl;
 										else {
 											if (subcontBook.size() > 1) {
 												n = inputInt("Enter book's position in the list(1.."
-													+ std::to_string(subcontBook.size()) + "): ", 1, subcontBook.size());
+													+ std::to_string(subcontBook.size()) + ") or \"exit\" to exit: ", 1, subcontBook.size());
 												bookContainer.find(subcontBook[n - 1], itBook);
 												printBookCaption();
 												std::cout << *itBook << std::endl;
@@ -1075,7 +1274,7 @@ int main() {
 												bookContainer.find(subcontBook[0], itBook);
 											printSubReturn();
 											n = inputInt("Enter the command: ", 0, 1);
-											switch (n){
+											switch (n) {
 											case 1://Return
 												itBook->libraryCard = 0;
 												std::cout << "You return the book!" << std::endl;

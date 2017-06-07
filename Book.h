@@ -122,8 +122,8 @@ Book inputBook() {
 		returnDate = inputDate("Enter return date(dd/mm/yyyy): ");
 	}
 	else {
-		issueDate = Date(20, 06, 2017);
-		returnDate = Date(20, 07, 2017);
+		issueDate = Date(07, 06, 2017);
+		returnDate = Date(07, 07, 2017);
 	}
 
 	std::cout << "Enter author: ";
