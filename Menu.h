@@ -14,9 +14,8 @@ void printModeMenu() {
 void printSubscriberMenu() {
 	std::cout << "-------------------------------------" << std::endl;
 	std::cout << " 1)Find book" << std::endl;
-	std::cout << " 2)Output my books" << std::endl;
-	std::cout << " 3)Output available books" << std::endl;
-	std::cout << " 4)Return book" << std::endl;
+	std::cout << " 2)My books" << std::endl;
+	std::cout << " 3)Available books" << std::endl;
 	std::cout << " 0)Exit" << std::endl;
 	std::cout << "-------------------------------------" << std::endl;
 }

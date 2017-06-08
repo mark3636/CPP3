@@ -453,7 +453,7 @@ public:
 			return true;
 		}
 		std::cout << "-------------------------------------" << std::endl;
-		std::cout << "Subscriber with such library card already exists!" << std::endl;
+		std::cout << "Element with such library card already exists!" << std::endl;
 		return false;
 	}
 
@@ -974,6 +974,7 @@ int main() {
 						case 1://Add sub
 							try {
 								subscriberContainer.add(inputSubscriber());
+								subscriberContainer.fileOutput(std::fstream(SUBS_FILE, std::ios::out));
 							}
 							catch (const char*) {
 								break;
@@ -1008,14 +1009,17 @@ int main() {
 										case 2://Change sub
 											try {
 												inputSubscriberChanged(itSubscriber);
+												subscriberContainer.fileOutput(std::fstream(SUBS_FILE, std::ios::out));
 											}
 											catch (const char*) {
+												subscriberContainer.fileOutput(std::fstream(SUBS_FILE, std::ios::out));
 												break;
 											}
 											break;
 										case 3://Remove sub
 											subscriberContainer.remove(itSubscriber);
 											std::cout << "Record was deleted" << std::endl;
+											subscriberContainer.fileOutput(std::fstream(SUBS_FILE, std::ios::out));
 											break;
 										case 0://Exit
 											break;
@@ -1035,10 +1039,12 @@ int main() {
 							case 1://By library card
 								subscriberContainer.sortByLibraryCard();
 								consoleOutput(subscriberContainer);
+								subscriberContainer.fileOutput(std::fstream(SUBS_FILE, std::ios::out));
 								break;
 							case 2://By surname
 								subscriberContainer.sortBySurname();
 								consoleOutput(subscriberContainer);
+								subscriberContainer.fileOutput(std::fstream(SUBS_FILE, std::ios::out));
 								break;
 							case 0://Exit
 								break;
@@ -1058,6 +1064,7 @@ int main() {
 						case 1://Add book
 							try {
 								bookContainer.add(inputBook());
+								bookContainer.fileOutput(std::fstream(BOOKS_FILE, std::ios::out));
 							}
 							catch (const char*) {
 								break;
@@ -1091,14 +1098,17 @@ int main() {
 										case 2://Change book
 											try {
 												inputBookChanged(itBook);
+												bookContainer.fileOutput(std::fstream(BOOKS_FILE, std::ios::out));
 											}
 											catch (const char*) {
+												bookContainer.fileOutput(std::fstream(BOOKS_FILE, std::ios::out));
 												break;
 											}
 											break;
 										case 3://Remove book
 											bookContainer.remove(itBook);
 											std::cout << "Record was deleted" << std::endl;
+											bookContainer.fileOutput(std::fstream(BOOKS_FILE, std::ios::out));
 											break;
 										case 0://Exit
 											break;
@@ -1119,34 +1129,42 @@ int main() {
 							case 1://By library card
 								bookContainer.sortByLibraryCard();
 								consoleOutput(bookContainer);
+								bookContainer.fileOutput(std::fstream(BOOKS_FILE, std::ios::out));
 								break;
 							case 2://By issue date
 								bookContainer.sortByIssueDate();
 								consoleOutput(bookContainer);
+								bookContainer.fileOutput(std::fstream(BOOKS_FILE, std::ios::out));
 								break;
 							case 3://By return date
 								bookContainer.sortByReturnDate();
 								consoleOutput(bookContainer);
+								bookContainer.fileOutput(std::fstream(BOOKS_FILE, std::ios::out));
 								break;
 							case 4://By author
 								bookContainer.sortByAuthor();
 								consoleOutput(bookContainer);
+								bookContainer.fileOutput(std::fstream(BOOKS_FILE, std::ios::out));
 								break;
 							case 5://By title
 								bookContainer.sortByTitle();
 								consoleOutput(bookContainer);
+								bookContainer.fileOutput(std::fstream(BOOKS_FILE, std::ios::out));
 								break;
 							case 6://By publication year
 								bookContainer.sortByPublicationYear();
 								consoleOutput(bookContainer);
+								bookContainer.fileOutput(std::fstream(BOOKS_FILE, std::ios::out));
 								break;
 							case 7://By publishing house
 								bookContainer.sortByPublishingHouse();
 								consoleOutput(bookContainer);
+								bookContainer.fileOutput(std::fstream(BOOKS_FILE, std::ios::out));
 								break;
 							case 8://By price
 								bookContainer.sortByPrice();
 								consoleOutput(bookContainer);
+								bookContainer.fileOutput(std::fstream(BOOKS_FILE, std::ios::out));
 								break;
 							case 0://Exit
 								break;
@@ -1176,7 +1194,7 @@ int main() {
 					}
 					else {
 						printSubscriberMenu();
-						n = inputInt("Enter the command: ", 0, 4);
+						n = inputInt("Enter the command: ", 0, 3);
 						while (n != 0) {
 							switch (n) {
 							case 1://Find books
@@ -1205,6 +1223,7 @@ int main() {
 												itBook->libraryCard = 0;
 												std::cout << "-------------------------------------" << std::endl;
 												std::cout << "You return the book!" << std::endl;
+												bookContainer.fileOutput(std::fstream(BOOKS_FILE, std::ios::out));
 												break;
 											case 0://Exit
 												break;
@@ -1221,6 +1240,7 @@ int main() {
 													itBook->returnDate = Date(20, 07, 2017);
 													std::cout << "-------------------------------------" << std::endl;
 													std::cout << "You take the book!" << std::endl;
+													bookContainer.fileOutput(std::fstream(BOOKS_FILE, std::ios::out));
 													break;
 												case 0://Exit
 													break;
@@ -1237,27 +1257,6 @@ int main() {
 									std::cout << "You don't have any books!" << std::endl;
 								else {
 									std::cout << "Your books:" << std::endl;
-									consoleOutput(subcontBook);
-								}
-								break;
-							case 3://Output available books
-								subcontBook = bookContainer.findSubSetByLibraryCard(0);
-								std::cout << "-------------------------------------" << std::endl;
-								if (subcontBook.size() == 0)
-									std::cout << "There are no available books! Please, come again later!" << std::endl;
-								else {
-									std::cout << "Available books:" << std::endl;
-									consoleOutput(subcontBook);
-								}
-								break;
-						
-							case 4://Return book
-								subcontBook = bookContainer.findSubSetByLibraryCard(currentSubscriber);
-								std::cout << "-------------------------------------" << std::endl;
-								if (subcontBook.size() == 0)
-									std::cout << "You don't have any books!" << std::endl;
-								else {
-									std::cout << "Books, which you can return:" << std::endl;
 									try {
 										findSubBooks(subcontBook, 0);
 										if (subcontBook.size() == 0)
@@ -1278,6 +1277,7 @@ int main() {
 											case 1://Return
 												itBook->libraryCard = 0;
 												std::cout << "You return the book!" << std::endl;
+												bookContainer.fileOutput(std::fstream(BOOKS_FILE, std::ios::out));
 												break;
 											case 0://Exit
 												break;
@@ -1287,9 +1287,46 @@ int main() {
 									catch (const char*) {}
 								}
 								break;
+							case 3://Output available books
+								subcontBook = bookContainer.findSubSetByLibraryCard(0);
+								std::cout << "-------------------------------------" << std::endl;
+								if (subcontBook.size() == 0)
+									std::cout << "There are no available books! Please, come again later!" << std::endl;
+								else {
+									try {
+										std::cout << "Available books:" << std::endl;
+										findSubBooks(subcontBook, 0);
+										if (subcontBook.size() == 0)
+											std::cout << "There are no such books!" << std::endl;
+										else {
+											if (subcontBook.size() > 1) {
+												n = inputInt("Enter book's position in the list(1.."
+													+ std::to_string(subcontBook.size()) + ") or \"exit\" to exit: ", 1, subcontBook.size());
+												bookContainer.find(subcontBook[n - 1], itBook);
+												printBookCaption();
+												std::cout << *itBook << std::endl;
+											}
+											else
+												bookContainer.find(subcontBook[0], itBook);
+											printSubTake();
+											n = inputInt("Enter the command: ", 0, 1);
+											switch (n) {
+											case 1://Take
+												itBook->libraryCard = currentSubscriber;
+												std::cout << "You take the book!" << std::endl;
+												bookContainer.fileOutput(std::fstream(BOOKS_FILE, std::ios::out));
+												break;
+											case 0://Exit
+												break;
+											}
+										}
+									}
+									catch(const char*) {}
+								}
+								break;
 							}	
 							printSubscriberMenu();
-							n = inputInt("Enter the command: ", 0, 4);
+							n = inputInt("Enter the command: ", 0, 3);
 							}
 						}
 					}
