@@ -14,7 +14,7 @@
 #include "Book.h"
 #include "Subscriber.h"
 
-//Predicats and Comparators
+//Predicats, Comparators and Accumulators
 class LibraryCardPred {
 protected:
 	int card;
