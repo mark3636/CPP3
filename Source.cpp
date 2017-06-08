@@ -942,7 +942,7 @@ int main() {
 	int n, currentSubscriber;
 	bool binarSearch;
 	bool found;
-	std::string FName;
+	std::string fileName;
 	std::vector<Book>::iterator itBook;
 	std::vector<Subscriber>::iterator itSubscriber;
 	const std::string BOOKS_FILE = "books.txt";
